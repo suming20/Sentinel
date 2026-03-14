@@ -31,6 +31,7 @@ import com.alibaba.csp.sentinel.util.function.BiConsumer;
  *
  * @author jialiang.linjl
  * @author Eric Zhao
+ * CtEntry用于维护父子Entry关系，每一次调用SphU类的entry方法都会创建一个CtEntry实例。
  */
 class CtEntry extends Entry {
 

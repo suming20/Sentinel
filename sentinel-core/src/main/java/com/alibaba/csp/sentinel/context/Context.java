@@ -58,16 +58,21 @@ public class Context {
 
     /**
      * Context name.
+     * 调用链的入口名称
      */
     private final String name;
 
     /**
      * The entrance node of current invocation tree.
+     * 入口节点
      */
     private DefaultNode entranceNode;
 
     /**
      * Current processing entry.
+     * 在调用链上，一个资源对应一个Entry实例。
+     * 可以从Context中获取调用链上当前访问到的资源的DefaultNode实例，
+     * 而DefaultNode实例实际是从Context实例的curEntry字段中获取的
      */
     private Entry curEntry;
 
