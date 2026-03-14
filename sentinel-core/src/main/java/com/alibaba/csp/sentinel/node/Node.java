@@ -36,6 +36,7 @@ public interface Node extends OccupySupport, DebugSupport {
      * Get incoming request per minute ({@code pass + block}).
      *
      * @return total request count per minute
+     * 请求总数
      */
     long totalRequest();
 
@@ -44,6 +45,7 @@ public interface Node extends OccupySupport, DebugSupport {
      *
      * @return total passed request count per minute
      * @since 1.5.0
+     * 放行请求总数
      */
     long totalPass();
 
@@ -51,6 +53,7 @@ public interface Node extends OccupySupport, DebugSupport {
      * Get {@link Entry#exit()} count per minute.
      *
      * @return total completed request count per minute
+     * 响应成功的请求总数
      */
     long totalSuccess();
 
@@ -72,6 +75,7 @@ public interface Node extends OccupySupport, DebugSupport {
      * Get pass request per second.
      *
      * @return QPS of passed requests
+     * 当前时间窗口内放行的总数
      */
     double passQps();
 
@@ -114,6 +118,7 @@ public interface Node extends OccupySupport, DebugSupport {
      * Get average rt per second.
      *
      * @return average response time per second
+     * 平均耗时
      */
     double avgRt();
 
@@ -128,6 +133,7 @@ public interface Node extends OccupySupport, DebugSupport {
      * Get current active thread count.
      *
      * @return current active thread count
+     * 当前并行占用的线程数
      */
     int curThreadNum();
 

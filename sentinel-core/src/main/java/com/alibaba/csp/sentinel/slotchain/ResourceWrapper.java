@@ -29,7 +29,9 @@ public abstract class ResourceWrapper {
 
     protected final String name;
 
+    // 流量类型
     protected final EntryType entryType;
+    // 资源类型 @see ResourceTypeConstants
     protected final int resourceType;
 
     public ResourceWrapper(String name, EntryType entryType, int resourceType) {

@@ -37,6 +37,9 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
  *
  * @author qinan.qn
  * @see NodeSelectorSlot
+ * 实例用于统计统一资源，不同调用链入口的实时指标数据
+ * 一个资源可能有多个DefaultNode实例，取决于该资源是否被多个不同的入口节点的调用链包含；
+ * 目的：可以按不同的调用链入口对资源采取不同的流量控制策略；
  */
 public class DefaultNode extends StatisticNode {
 
@@ -47,6 +50,7 @@ public class DefaultNode extends StatisticNode {
 
     /**
      * The list of all child nodes.
+     * 存放子节点和构造调用树
      */
     private volatile Set<Node> childList = new HashSet<>();
 

@@ -41,6 +41,8 @@ import com.alibaba.csp.sentinel.util.AssertUtil;
  *
  * @author qinan.qn
  * @author jialiang.linjl
+ * 用于统计每个资源的全局指标数据，以及针对不同调用来源，分别统计资源的指标数据；
+ * 资源的全局指标数据不区分调用链入口，一个资源有且仅有一个clusterNode 实例
  */
 public class ClusterNode extends StatisticNode {
 
@@ -63,6 +65,7 @@ public class ClusterNode extends StatisticNode {
      * The longer the application runs, the more stable this mapping will become.
      * So we didn't use concurrent map here, but a lock, as this lock only happens
      * at the very beginning while concurrent map will hold the lock all the time.
+     * Key为调用来源
      * </p>
      */
     private Map<String, StatisticNode> originCountMap = new HashMap<>();

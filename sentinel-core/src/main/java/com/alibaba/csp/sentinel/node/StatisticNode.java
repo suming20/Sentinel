@@ -86,12 +86,14 @@ import com.alibaba.csp.sentinel.util.function.Predicate;
  *
  * @author qinan.qn
  * @author jialiang.linjl
+ * 封装实时指标数据统计
  */
 public class StatisticNode implements Node {
 
     /**
      * Holds statistics of the recent {@code INTERVAL} milliseconds. The {@code INTERVAL} is divided into time spans
      * by given {@code sampleCount}.
+     * 秒级滑动窗口
      */
     private transient volatile Metric rollingCounterInSecond = new ArrayMetric(SampleCountProperty.SAMPLE_COUNT,
         IntervalProperty.INTERVAL);
@@ -250,9 +252,11 @@ public class StatisticNode implements Node {
 
     @Override
     public void addRtAndSuccess(long rt, int successCount) {
+        // 秒级滑动窗口
         rollingCounterInSecond.addSuccess(successCount);
         rollingCounterInSecond.addRT(rt);
 
+        // 分钟级滑动窗口
         rollingCounterInMinute.addSuccess(successCount);
         rollingCounterInMinute.addRT(rt);
     }
