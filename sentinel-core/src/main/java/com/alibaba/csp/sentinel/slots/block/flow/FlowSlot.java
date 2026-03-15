@@ -135,6 +135,7 @@ import java.util.Collection;
  *
  * @author jialiang.linjl
  * @author Eric Zhao
+ * 实现QPS/Thread限流
  */
 @Spi(order = Constants.ORDER_FLOW_SLOT)
 public class FlowSlot extends AbstractLinkedProcessorSlot<DefaultNode> {

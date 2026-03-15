@@ -24,6 +24,10 @@ import com.alibaba.csp.sentinel.context.Context;
  * @author jialiang.linjl
  * @author leyou(lihao)
  * @author Eric Zhao
+ * ProcessorSlot是Sentinel实现限流、熔断降级、系统自适应等功能的切入点。
+ * Sentinel提供的ProcessorSlot可以分为两类：
+ * 一类是负责资源指标数据统计的ProcessorSlot，
+ * 一类是实现限流、熔断等流量控制功能的ProcessorSlot。
  */
 public interface ProcessorSlot<T> {
 

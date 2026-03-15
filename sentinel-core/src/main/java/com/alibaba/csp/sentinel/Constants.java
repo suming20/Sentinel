@@ -56,6 +56,10 @@ public final class Constants {
 
     /**
      * Global ROOT statistic node that represents the universal parent node.
+     * 在调用链上，当ContextUtil类的enter方法首次被调用时，如果不存在与enter方法传入的入口名称相同的EntranceNode实例，
+     * 就会创建一个EntranceNode实例。
+     * 调用链上的Context实例的entranceNode字段引用的就是该EntranceNode实例，
+     * 而ROOT的子节点（childList）存储的是整个应用中的所有EntranceNode实例。
      */
     public final static DefaultNode ROOT = new EntranceNode(new StringResourceWrapper(ROOT_ID, EntryType.IN),
         new ClusterNode(ROOT_ID, ResourceTypeConstants.COMMON));

@@ -45,6 +45,7 @@ import com.alibaba.csp.sentinel.spi.Spi;
  * </p>
  *
  * @author jialiang.linjl
+ * 为调用链上的资源创建ClusterNode实例，以及对于不同调用来源，为调用链上的资源都创建一个StatisticNode实例
  */
 @Spi(isSingleton = false, order = Constants.ORDER_CLUSTER_BUILDER_SLOT)
 public class ClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNode> {

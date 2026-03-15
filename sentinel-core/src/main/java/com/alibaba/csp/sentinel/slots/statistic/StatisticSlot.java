@@ -47,6 +47,8 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
  *
  * @author jialiang.linjl
  * @author Eric Zhao
+ * 真正用于实现资源指标数据统计的处理器插槽，
+ * 它会先调用后续的ProcessorSlot类的entry方法判断是否放行请求，再根据结果执行相应的资源指标数据统计操作。
  */
 @Spi(order = Constants.ORDER_STATISTIC_SLOT)
 public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {

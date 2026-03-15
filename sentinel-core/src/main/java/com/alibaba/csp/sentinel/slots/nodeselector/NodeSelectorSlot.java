@@ -123,6 +123,7 @@ import java.util.Map;
  * @author jialiang.linjl
  * @see EntranceNode
  * @see ContextUtil
+ * 为资源链上的资源创建一个DefaultNode实例，相同调用链上的资源仅会创建一个DefaultNode实例
  */
 @Spi(isSingleton = false, order = Constants.ORDER_NODE_SELECTOR_SLOT)
 public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
