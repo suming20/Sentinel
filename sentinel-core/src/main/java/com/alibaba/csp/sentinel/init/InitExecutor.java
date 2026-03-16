@@ -43,12 +43,14 @@ public final class InitExecutor {
             return;
         }
         try {
+            // 获取所有接口实现类的实例
             List<InitFunc> initFuncs = SpiLoader.of(InitFunc.class).loadInstanceListSorted();
             List<OrderWrapper> initList = new ArrayList<OrderWrapper>();
             for (InitFunc initFunc : initFuncs) {
                 RecordLog.info("[InitExecutor] Found init func: {}", initFunc.getClass().getCanonicalName());
                 insertSorted(initList, initFunc);
             }
+            // 遍历调用每个InitFunc的初始化方法
             for (OrderWrapper w : initList) {
                 w.func.init();
                 RecordLog.info("[InitExecutor] Executing {} with order {}",

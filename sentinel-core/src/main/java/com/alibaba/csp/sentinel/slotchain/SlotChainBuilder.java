@@ -21,6 +21,7 @@ package com.alibaba.csp.sentinel.slotchain;
  * @author qinan.qn
  * @author leyou
  * @author Eric Zhao
+ * SlotChainBuilder Sentinel只会加载和使用第一个非默认实现的实现类
  */
 public interface SlotChainBuilder {
 

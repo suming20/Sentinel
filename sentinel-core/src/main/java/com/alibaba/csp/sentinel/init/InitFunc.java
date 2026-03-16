@@ -17,6 +17,7 @@ package com.alibaba.csp.sentinel.init;
 
 /**
  * @author Eric Zhao
+ * InitFunc SPI 配置了多个实现类时，都会被Sentinel加载并实例化，并且都会被使用
  */
 public interface InitFunc {
 
