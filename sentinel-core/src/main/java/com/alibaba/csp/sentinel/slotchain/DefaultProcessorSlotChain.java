@@ -20,6 +20,7 @@ import com.alibaba.csp.sentinel.context.Context;
 /**
  * @author qinan.qn
  * @author jialiang.linjl
+ * 默认实现，定义了first和end字段，头尾节点
  */
 public class DefaultProcessorSlotChain extends ProcessorSlotChain {
 

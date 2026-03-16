@@ -28,11 +28,15 @@ import com.alibaba.csp.sentinel.context.Context;
  * Sentinel提供的ProcessorSlot可以分为两类：
  * 一类是负责资源指标数据统计的ProcessorSlot，
  * 一类是实现限流、熔断等流量控制功能的ProcessorSlot。
+ * sentinel会为每一个资源创建且仅创建一个ProcessorSlotChain实例；
+ * ProcessorSlotChain实例被缓存在CtSph类的chainMap静态字段中，key为资源ID，每个资源的ProcessorSlotChain实例
+ * 在CtSph#entryWithPriority方法中被创建
  */
 public interface ProcessorSlot<T> {
 
     /**
      * Entrance of this slot.
+     * 入口方法
      *
      * @param context         current {@link Context}
      * @param resourceWrapper current resource
@@ -47,6 +51,7 @@ public interface ProcessorSlot<T> {
 
     /**
      * Means finish of {@link #entry(Context, ResourceWrapper, Object, int, boolean, Object...)}.
+     * 调用下一个ProcessorSlot的Entry方法
      *
      * @param context         current {@link Context}
      * @param resourceWrapper current resource
@@ -61,6 +66,7 @@ public interface ProcessorSlot<T> {
 
     /**
      * Exit of this slot.
+     * 出口方法
      *
      * @param context         current {@link Context}
      * @param resourceWrapper current resource
@@ -71,6 +77,7 @@ public interface ProcessorSlot<T> {
 
     /**
      * Means finish of {@link #exit(Context, ResourceWrapper, int, Object...)}.
+     * 调用下一个ProcessorSlot的exit方法
      *
      * @param context         current {@link Context}
      * @param resourceWrapper current resource
