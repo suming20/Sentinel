@@ -40,6 +40,7 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
  */
 public abstract class LeapArray<T> {
 
+    // bucket的时间窗口大小
     protected int windowLengthInMs;
     protected int sampleCount;
     protected int intervalInMs;
@@ -118,6 +119,7 @@ public abstract class LeapArray<T> {
             return null;
         }
 
+        // 获取时间戳映射到的数组索引值
         int idx = calculateTimeIdx(timeMillis);
         // Calculate current bucket start time.
         long windowStart = calculateWindowStart(timeMillis);
@@ -128,9 +130,11 @@ public abstract class LeapArray<T> {
          * (1) Bucket is absent, then just create a new bucket and CAS update to circular array.
          * (2) Bucket is up-to-date, then just return the bucket.
          * (3) Bucket is deprecated, then reset current bucket.
+         * 从数组中获取Bucket
          */
         while (true) {
             WindowWrap<T> old = array.get(idx);
+            // 一般是项目启动或未有请求时，或者数组还没有存储慢，达到复用阶段
             if (old == null) {
                 /*
                  *     B0       B1      B2    NULL      B4
@@ -145,6 +149,7 @@ public abstract class LeapArray<T> {
                  * succeed to update, while other threads yield its time slice.
                  */
                 WindowWrap<T> window = new WindowWrap<T>(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));
+                // CAS写入，确保线程安全
                 if (array.compareAndSet(idx, null, window)) {
                     // Successfully updated, return the created bucket.
                     return window;
@@ -186,6 +191,7 @@ public abstract class LeapArray<T> {
                 if (updateLock.tryLock()) {
                     try {
                         // Successfully get the update lock, now we reset the bucket.
+                        // 可用复用oldBucket，重置Bucket，并指定Bucket的开始时间戳
                         return resetWindowTo(old, windowStart);
                     } finally {
                         updateLock.unlock();
@@ -196,6 +202,7 @@ public abstract class LeapArray<T> {
                 }
             } else if (windowStart < old.windowStart()) {
                 // Should not go through here, as the provided time is already behind.
+                // 直接返回空的Bucket，因为时间不会倒退
                 return new WindowWrap<T>(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));
             }
         }
@@ -219,6 +226,7 @@ public abstract class LeapArray<T> {
             return null;
         }
 
+        // 比较，如果跨越了一个时间窗口周期，则这个Bucket不是我们想要的前一个窗口
         if (wrap.windowStart() + windowLengthInMs < (timeMillis)) {
             return null;
         }

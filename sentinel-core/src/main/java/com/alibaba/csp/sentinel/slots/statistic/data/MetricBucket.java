@@ -27,8 +27,10 @@ import java.util.concurrent.atomic.LongAdder;
  */
 public class MetricBucket {
 
+    // 统计各项指标数据，包括请求异常总数，请求成功总数和总耗时等
     private final LongAdder[] counters;
 
+    // 只记录最小耗时
     private volatile long minRt;
 
     public MetricBucket() {
@@ -42,6 +44,7 @@ public class MetricBucket {
 
     public MetricBucket reset(MetricBucket bucket) {
         for (MetricEvent event : MetricEvent.values()) {
+            // 使用MetricEvent的ordinal作为下标，ordinal值是从0开始的
             counters[event.ordinal()].reset();
             counters[event.ordinal()].add(bucket.get(event));
         }

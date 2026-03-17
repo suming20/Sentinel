@@ -118,6 +118,7 @@ public class ContextUtil {
     }
 
     protected static Context trueEnter(String name, String origin) {
+        // 尝试从缓存中获取已存在的入口节点
         Context context = contextHolder.get();
         if (context == null) {
             Map<String, DefaultNode> localCacheNameMap = contextNameNodeMap;
@@ -135,6 +136,7 @@ public class ContextUtil {
                                 setNullContext();
                                 return NULL_CONTEXT;
                             } else {
+                                // 创建入口节点，作为调用树根节点的子节点
                                 node = new EntranceNode(new StringResourceWrapper(name, EntryType.IN), null);
                                 // Add entrance node.
                                 Constants.ROOT.addChild(node);
