@@ -124,12 +124,15 @@ import java.util.Map;
  * @see EntranceNode
  * @see ContextUtil
  * 为资源链上的资源创建一个DefaultNode实例，相同调用链上的资源仅会创建一个DefaultNode实例
+ * 修改Context实例的curNode字段指向当前资源的DefaultNode实例，将DefaultNode实例绑定到调用树上；
+ * 后序的ProcessorSLot都依赖当前ProcessorSLot，放在链表的第一个未知
  */
 @Spi(isSingleton = false, order = Constants.ORDER_NODE_SELECTOR_SLOT)
 public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
 
     /**
      * {@link DefaultNode}s of the same resource in different context.
+     * 缓存同一资源，不同调用链入口创建的DefaultNode实例
      */
     private volatile Map<String, DefaultNode> map = new HashMap<String, DefaultNode>(10);
 
@@ -165,12 +168,14 @@ public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
                     cacheMap.put(context.getName(), node);
                     map = cacheMap;
                     // Build invocation tree
+                    // 将当前的DefaultNode绑定到实例调用树上
                     ((DefaultNode) context.getLastNode()).addChild(node);
                 }
 
             }
         }
 
+        // 替换Context的curNode为当前创建的DefaultNode实例
         context.setCurNode(node);
         fireEntry(context, resourceWrapper, node, count, prioritized, args);
     }

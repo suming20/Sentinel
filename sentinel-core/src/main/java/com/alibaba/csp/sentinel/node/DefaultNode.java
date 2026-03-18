@@ -56,6 +56,7 @@ public class DefaultNode extends StatisticNode {
 
     /**
      * Associated cluster node.
+     * 持有ClusterNode实例，代理ClusterNode完成资源指标数据统计
      */
     private ClusterNode clusterNode;
 
@@ -125,6 +126,8 @@ public class DefaultNode extends StatisticNode {
     @Override
     public void addRtAndSuccess(long rt, int successCount) {
         super.addRtAndSuccess(rt, successCount);
+        // 当请求被成功处理后，StatisticSlot会调用DefaultNode实例的addRtAndSuccess方法增加请求处理成功总数和总耗时；
+        // DefaultNode会先调用父类的addRtAndSuccess方法，再调用ClusterNode实例的addRtAndSuccess方法。
         this.clusterNode.addRtAndSuccess(rt, successCount);
     }
 

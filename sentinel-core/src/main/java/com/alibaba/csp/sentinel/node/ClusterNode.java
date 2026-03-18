@@ -66,6 +66,8 @@ public class ClusterNode extends StatisticNode {
      * So we didn't use concurrent map here, but a lock, as this lock only happens
      * at the very beginning while concurrent map will hold the lock all the time.
      * Key为调用来源
+     * 如果上游服务调用当前服务的接口将origin字段传递过来，
+     * 那么ClusterBuilderSlot就会为ClusterNode实例创建一个StatisticNode实例，用来统计当前资源被该远程服务调用的指标数据。
      * </p>
      */
     private Map<String, StatisticNode> originCountMap = new HashMap<>();
@@ -100,6 +102,8 @@ public class ClusterNode extends StatisticNode {
      * @param origin The caller's name, which is designated in the {@code parameter} parameter
      *               {@link ContextUtil#enter(String name, String origin)}.
      * @return the {@link Node} of the specific origin
+     * 如果自定义的ProcessorSlot需要用到调用来源的StatisticNode，
+     * 那么在构建ProcessorSlotChain时，必须将这个自定义的ProcessorSlot放在ClusterBuilderSlot之后。
      */
     public Node getOrCreateOriginNode(String origin) {
         StatisticNode statisticNode = originCountMap.get(origin);

@@ -46,6 +46,7 @@ import com.alibaba.csp.sentinel.spi.Spi;
  *
  * @author jialiang.linjl
  * 为调用链上的资源创建ClusterNode实例，以及对于不同调用来源，为调用链上的资源都创建一个StatisticNode实例
+ * ClusterBuilderSlot则负责加工资源的DefaultNode实例，添加ClusterNode实例，然后将DefaultNode实例向下传递给StatisticSlot
  */
 @Spi(isSingleton = false, order = Constants.ORDER_CLUSTER_BUILDER_SLOT)
 public class ClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
@@ -67,11 +68,13 @@ public class ClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNode>
      * become. so we don't concurrent map but a lock. as this lock only happens
      * at the very beginning while concurrent map will hold the lock all the time.
      * </p>
+     * 缓存不同资源的全局唯一ClusterNode
      */
     private static volatile Map<ResourceWrapper, ClusterNode> clusterNodeMap = new HashMap<>();
 
     private static final Object lock = new Object();
 
+    // 非静态字段，持有当前资源的ClusterNode
     private volatile ClusterNode clusterNode = null;
 
     @Override

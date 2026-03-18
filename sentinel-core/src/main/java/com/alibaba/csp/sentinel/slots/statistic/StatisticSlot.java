@@ -61,15 +61,19 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
             fireEntry(context, resourceWrapper, node, count, prioritized, args);
 
             // Request passed, add thread count and pass count.
+            // 自增并行的线程数
             node.increaseThreadNum();
+            // 被放行请求总数+1
             node.addPassRequest(count);
 
             if (context.getCurEntry().getOriginNode() != null) {
                 // Add count for origin node.
+                // 让调用来源对应的StatisticNode自增并行线程数
                 context.getCurEntry().getOriginNode().increaseThreadNum();
                 context.getCurEntry().getOriginNode().addPassRequest(count);
             }
 
+            // 流量类型为IN，统计整个入口的流量+1
             if (resourceWrapper.getEntryType() == EntryType.IN) {
                 // Add count for global inbound entry node for global statistics.
                 Constants.ENTRY_NODE.increaseThreadNum();
@@ -81,6 +85,7 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
                 handler.onPass(context, resourceWrapper, node, count, args);
             }
         } catch (PriorityWaitException ex) {
+            // 这是特殊情况，在需要对请求限流时，只有使用默认流量效果控制器才可能会抛出PriorityWaitException
             node.increaseThreadNum();
             if (context.getCurEntry().getOriginNode() != null) {
                 // Add count for origin node.
@@ -96,6 +101,7 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
                 handler.onPass(context, resourceWrapper, node, count, args);
             }
         } catch (BlockException e) {
+            // BlockException只在需要拒绝请求时被抛出
             // Blocked, set block exception to current entry.
             context.getCurEntry().setBlockError(e);
 
