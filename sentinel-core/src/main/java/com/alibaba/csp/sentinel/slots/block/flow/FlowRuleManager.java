@@ -113,6 +113,7 @@ public class FlowRuleManager {
      * Load {@link FlowRule}s, former rules will be replaced.
      *
      * @param rules new rules to load.
+     * 加载和更新限流规则的API
      */
     public static void loadRules(List<FlowRule> rules) {
         currentProperty.updateValue(rules);

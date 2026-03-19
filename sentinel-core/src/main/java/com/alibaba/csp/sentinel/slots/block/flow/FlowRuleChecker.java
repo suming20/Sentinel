@@ -68,6 +68,7 @@ public class FlowRuleChecker {
             return true;
         }
 
+        // 是否集群限流
         if (rule.isClusterMode()) {
             return passClusterCheck(rule, context, node, acquireCount, prioritized);
         }
@@ -77,6 +78,7 @@ public class FlowRuleChecker {
 
     private static boolean passLocalCheck(FlowRule rule, Context context, DefaultNode node, int acquireCount,
                                           boolean prioritized) {
+        // 根据调用来源和调用关系选择策略节点
         Node selectedNode = selectNodeByRequesterAndStrategy(rule, context, node);
         if (selectedNode == null) {
             return true;
@@ -93,6 +95,7 @@ public class FlowRuleChecker {
             return null;
         }
 
+        // 当两个资源有竞争关系时，使用STRATEGY_RELATE可以避免多个资源之间过度的争抢同一个资源
         if (strategy == RuleConstant.STRATEGY_RELATE) {
             return ClusterBuilderSlot.getClusterNode(refResource);
         }
