@@ -26,6 +26,7 @@ public interface TrafficShapingController {
 
     /**
      * Check whether given resource entry can pass with provided count.
+     * 判断当前请求是否能通过
      *
      * @param node resource node
      * @param acquireCount count to acquire

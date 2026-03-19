@@ -24,6 +24,7 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
 
 /**
  * Default throttling controller (immediately reject strategy).
+ * 适用于明确知道系统处理能力的情况，如通过压测确定阈值
  *
  * @author jialiang.linjl
  * @author Eric Zhao
@@ -47,12 +48,15 @@ public class DefaultController implements TrafficShapingController {
 
     @Override
     public boolean canPass(Node node, int acquireCount, boolean prioritized) {
+        // 如果限流规则为QPS返回请求总数，如果为Thread，返回并行的线程数
         int curCount = avgUsedTokens(node);
         if (curCount + acquireCount > count) {
+            // 一般prioritized为false 排在FlowSlot之前的ProcessorSlot没有修改的话，一下条件不满足，直接拒绝
             if (prioritized && grade == RuleConstant.FLOW_GRADE_QPS) {
                 long currentTime;
                 long waitInMs;
                 currentTime = TimeUtil.currentTimeMillis();
+                // 如果可以占用未来时间窗口的统计指标，则tryOccupyNext会返回当前请求需要等待的时间ms
                 waitInMs = node.tryOccupyNext(currentTime, acquireCount, count);
                 if (waitInMs < OccupyTimeoutProperty.getOccupyTimeout()) {
                     node.addWaitingRequest(currentTime + waitInMs, acquireCount);

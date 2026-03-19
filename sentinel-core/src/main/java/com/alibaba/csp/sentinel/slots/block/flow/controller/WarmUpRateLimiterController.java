@@ -26,7 +26,9 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
  */
 public class WarmUpRateLimiterController extends WarmUpController {
 
+    // 超时时间
     private final int timeoutInMs;
+    // 最近一个请求通过的时间，用于计算下一个请求预计通过时间
     private final AtomicLong latestPassedTime = new AtomicLong(-1);
 
     public WarmUpRateLimiterController(double count, int warmUpPeriodSec, int timeOutMs, int coldFactor) {
@@ -58,12 +60,15 @@ public class WarmUpRateLimiterController extends WarmUpController {
         } else {
             costTime = Math.round(1.0 * (acquireCount) / count * 1000);
         }
+        // 如果限流阈值为200QPS，则costTime=5ms,即每5ms允许通过一个请求
+        // 当前请求期望通过时间=时间间隔+最近一个请求通过时间
         expectedTime = costTime + latestPassedTime.get();
 
         if (expectedTime <= currentTime) {
             latestPassedTime.set(currentTime);
             return true;
         } else {
+            // 超过，则需要休眠等待
             long waitTime = costTime + latestPassedTime.get() - currentTime;
             if (waitTime > timeoutInMs) {
                 return false;
@@ -71,6 +76,7 @@ public class WarmUpRateLimiterController extends WarmUpController {
                 long oldTime = latestPassedTime.addAndGet(costTime);
                 try {
                     waitTime = oldTime - TimeUtil.currentTimeMillis();
+                    // 小于则说明排队有效，否则，就是某一瞬间某个请求占位了，需要拒绝
                     if (waitTime > timeoutInMs) {
                         latestPassedTime.addAndGet(-costTime);
                         return false;
