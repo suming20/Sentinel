@@ -55,6 +55,7 @@ public class DegradeRule extends AbstractRule {
 
     /**
      * Circuit breaking strategy (0: average RT, 1: exception ratio, 2: exception count).
+     * 熔断降级策略，取值为CircuitBreakerStrategy 与旧版本兼容
      */
     private int grade = RuleConstant.DEGRADE_GRADE_RT;
 
@@ -71,6 +72,7 @@ public class DegradeRule extends AbstractRule {
     /**
      * Recovery timeout (in seconds) when circuit breaker opens. After the timeout, the circuit breaker will
      * transform to half-open state for trying a few requests.
+     * 熔断的窗口时间
      */
     private int timeWindow;
 
@@ -85,6 +87,7 @@ public class DegradeRule extends AbstractRule {
      * The threshold of slow request ratio in RT mode.
      *
      * @since 1.8.0
+     * 慢请求调用比例
      */
     private double slowRatioThreshold = 1.0d;
 
@@ -92,6 +95,7 @@ public class DegradeRule extends AbstractRule {
      * The interval statistics duration in millisecond.
      *
      * @since 1.8.0
+     * 统计时长，统计周期
      */
     private int statIntervalMs = 1000;
 

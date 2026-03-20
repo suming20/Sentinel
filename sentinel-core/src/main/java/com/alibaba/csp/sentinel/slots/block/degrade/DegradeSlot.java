@@ -33,6 +33,7 @@ import com.alibaba.csp.sentinel.spi.Spi;
  *
  * @author Carpenter Lee
  * @author Eric Zhao
+ * 实现熔断降级的切入点
  */
 @Spi(order = Constants.ORDER_DEGRADE_SLOT)
 public class DegradeSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
@@ -73,6 +74,7 @@ public class DegradeSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
         if (curEntry.getBlockError() == null) {
             // passed request
             for (CircuitBreaker circuitBreaker : circuitBreakers) {
+                // 而熔断器从HALF_OPEN状态变为OPEN状态或从HALF_OPEN状态变为CLOSED状态都是在熔断器的onRequestComplete方法中完成的
                 circuitBreaker.onRequestComplete(context);
             }
         }

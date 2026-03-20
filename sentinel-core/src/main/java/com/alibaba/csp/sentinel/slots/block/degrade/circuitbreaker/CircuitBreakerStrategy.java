@@ -18,6 +18,7 @@ package com.alibaba.csp.sentinel.slots.block.degrade.circuitbreaker;
 /**
  * @author Eric Zhao
  * @since 1.8.0
+ * 熔断降级策略
  */
 public enum CircuitBreakerStrategy {
 

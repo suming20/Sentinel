@@ -33,11 +33,14 @@ import com.alibaba.csp.sentinel.util.function.BiConsumer;
 public abstract class AbstractCircuitBreaker implements CircuitBreaker {
 
     protected final DegradeRule rule;
+    // 熔断器开启的持续时间，对应熔断降级规则配置的timeWindow
     protected final int recoveryTimeoutMs;
 
+    // 熔断器状态改变监听器的注册器
     private final EventObserverRegistry observerRegistry;
 
     protected final AtomicReference<State> currentState = new AtomicReference<>(State.CLOSED);
+    // 允许熔断器关闭的时间 等于熔断器开启的时间+recoveryTimeoutMs
     protected volatile long nextRetryTimestamp;
 
     public AbstractCircuitBreaker(DegradeRule rule) {
@@ -86,6 +89,7 @@ public abstract class AbstractCircuitBreaker implements CircuitBreaker {
         return TimeUtil.currentTimeMillis() >= nextRetryTimestamp;
     }
 
+    // 当熔断器从CLOSED变为OPEN或者HALF_OPEN变为OPEN时被调用
     protected void updateNextRetryTimestamp() {
         this.nextRetryTimestamp = TimeUtil.currentTimeMillis() + recoveryTimeoutMs;
     }
