@@ -60,16 +60,23 @@ import com.alibaba.csp.sentinel.slots.block.flow.TrafficShapingController;
  * </p>
  *
  * @author jialiang.linjl
+ * 参考guava包的SmoothRateLimiter算法实现计算逻辑
  */
 public class WarmUpController implements TrafficShapingController {
 
+    // QPS限流阈值
     protected double count;
+    // 冷启动系数，默认为3
     private int coldFactor;
+    // 等同于thresholdPermits在稳定的令牌速率下，令牌桶中的令牌数
     protected int warningToken = 0;
+    // 令牌桶的最大容量
     private int maxToken;
+    // 直线的斜率，每秒放行请求数的增长速率
     protected double slope;
 
     protected AtomicLong storedTokens = new AtomicLong(0);
+    // 上一次产生令牌的时间
     protected AtomicLong lastFilledTime = new AtomicLong(0);
 
     public WarmUpController(double count, int warmUpPeriodInSec, int coldFactor) {
@@ -124,6 +131,7 @@ public class WarmUpController implements TrafficShapingController {
             long aboveToken = restToken - warningToken;
             // 消耗的速度要比warning快，但是要比慢
             // current interval = restToken*slope+1/count
+            // 1.0表示1s
             double warningQps = Math.nextUp(1.0 / (aboveToken * slope + 1.0 / count));
             if (passQps + acquireCount <= warningQps) {
                 return true;
