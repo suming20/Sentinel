@@ -30,15 +30,20 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
 /**
  * @author Eric Zhao
  * @since 1.8.0
+ * 慢请求熔断器，关心耗时指标数据
  */
 public class ResponseTimeCircuitBreaker extends AbstractCircuitBreaker {
 
     private static final double SLOW_REQUEST_RATIO_MAX_VALUE = 1.0d;
 
+    // 如果请求耗时超过该值，则将其视为慢请求
     private final long maxAllowedRt;
+    // 慢请求比率阈值
     private final double maxSlowRequestRatio;
+    // 最小请求数
     private final int minRequestAmount;
 
+    // 独立收集指标数据的滑动窗口
     private final LeapArray<SlowRequestCounter> slidingCounter;
 
     public ResponseTimeCircuitBreaker(DegradeRule rule) {

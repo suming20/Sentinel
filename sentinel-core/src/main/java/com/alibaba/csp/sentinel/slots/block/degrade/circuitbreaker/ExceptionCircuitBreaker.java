@@ -31,13 +31,18 @@ import static com.alibaba.csp.sentinel.slots.block.RuleConstant.DEGRADE_GRADE_EX
 /**
  * @author Eric Zhao
  * @since 1.8.0
+ * 异常熔断器
  */
 public class ExceptionCircuitBreaker extends AbstractCircuitBreaker {
 
+    // 熔断降级策略
     private final int strategy;
+    // 最小请求数
     private final int minRequestAmount;
+    // 熔断阈值 ERROR_RATIO异常比率   ERROR_COUNT为异常总数
     private final double threshold;
 
+    // 独立手机指标数据的滑动窗口
     private final LeapArray<SimpleErrorCounter> stat;
 
     public ExceptionCircuitBreaker(DegradeRule rule) {
@@ -74,6 +79,7 @@ public class ExceptionCircuitBreaker extends AbstractCircuitBreaker {
         }
         counter.getTotalCount().add(1);
 
+        // 根据当前时间窗口统计的指标数据是否达到阈值改变熔断器的状态
         handleStateChangeWhenThresholdExceeded(error);
     }
 
@@ -107,13 +113,16 @@ public class ExceptionCircuitBreaker extends AbstractCircuitBreaker {
             // Use errorRatio
             curCount = errCount * 1.0d / totalCount;
         }
+        // 判断errCount和阈值大小
         if (curCount > threshold) {
             transformToOpen(curCount);
         }
     }
 
     static class SimpleErrorCounter {
+        // 异常总数
         private LongAdder errorCount;
+        // 总请求数
         private LongAdder totalCount;
 
         public SimpleErrorCounter() {
