@@ -27,6 +27,7 @@ import com.sun.management.OperatingSystemMXBean;
 
 /**
  * @author jialiang.linjl
+ * Sentinel通过定时任务实现每秒钟使用OperatingSystemMXBean API获取系统的平均负载和
  */
 public class SystemStatusListener implements Runnable {
 
@@ -50,6 +51,7 @@ public class SystemStatusListener implements Runnable {
     public void run() {
         try {
             OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+            // 获取最近一分钟的平均负载
             currentLoad = osBean.getSystemLoadAverage();
 
             /*
@@ -59,6 +61,7 @@ public class SystemStatusListener implements Runnable {
              * of 1.0 means that all CPUs were actively running 100% of the time during the recent period being
              * observed. All values between 0.0 and 1.0 are possible depending of the activities going on in the
              * system. If the system recent cpu usage is not available, the method returns a negative value.
+             * 返回系统最近一段时间CPU的使用率
              */
             double systemCpuUsage = osBean.getSystemCpuLoad();
 

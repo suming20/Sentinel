@@ -302,6 +302,7 @@ public final class SystemRuleManager {
         }
 
         // total qps
+        // 从全局的资源指标数据统计节点中读取当前时间窗口的指标数据
         double currentQps = Constants.ENTRY_NODE.passQps();
         if (currentQps + count > qps) {
             throw new SystemBlockException(resourceWrapper.getName(), "qps");
@@ -332,6 +333,9 @@ public final class SystemRuleManager {
     }
 
     private static boolean checkBbr(int currentThread) {
+        // 如果某接口的最大QPS为800，处理一次请求的最小耗时为5毫秒，
+        // 则至少需要并行的线程数与Min RT和Max QPS的关系满足：Max QPS=Threads×(1000/Min Rt)。
+        // 推出：Threads=Max QPS/(1000/Min Rt)=MaxQPS×Min Rt/1000。
         if (currentThread > 1 &&
             currentThread > Constants.ENTRY_NODE.maxSuccessQps() * Constants.ENTRY_NODE.minRt() / 1000) {
             return false;

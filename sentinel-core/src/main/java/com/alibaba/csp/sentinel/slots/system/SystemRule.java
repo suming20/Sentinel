@@ -34,19 +34,25 @@ import com.alibaba.csp.sentinel.slots.block.AbstractRule;
  * @author jialiang.linjl
  * @author Carpenter Lee
  * @see SystemRuleManager
+ * 若配置了多个系统自适应限流规则，则每个配置项只取最小值；
  */
 public class SystemRule extends AbstractRule {
 
     /**
      * negative value means no threshold checking.
+     * 系统负载限流的阈值，大于0.0才生效
      */
     private double highestSystemLoad = -1;
     /**
      * cpu usage, between [0, 1]
+     * 按CPU使用率限流的阈值，取值范围【0.0,1.0】，大于等于0.0才生效
      */
     private double highestCpuUsage = -1;
+    // 限流阈值，大于0才生效
     private double qps = -1;
+    // 平均耗时限流的阈值，大于0才生效
     private long avgRt = -1;
+    // 最大并行占用线程数的阈值，大于0才生效
     private long maxThread = -1;
 
     public double getQps() {

@@ -28,6 +28,9 @@ import com.alibaba.csp.sentinel.spi.Spi;
  *
  * @author jialiang.linjl
  * @author leyou
+ * 系统自适应功能的入口
+ * SystemSlot在ProcessorSlotChain中在FlowSlot之前，强制系统优先考虑目前的情况是否能处理器请求，
+ * 使系统在实现最大吞吐量的同时保证稳定性
  */
 @Spi(order = Constants.ORDER_SYSTEM_SLOT)
 public class SystemSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
