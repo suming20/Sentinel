@@ -30,6 +30,11 @@ import com.alibaba.csp.sentinel.spi.Spi;
  *
  * @author leyou
  * @author Eric Zhao
+ * 实现黑白名单授权功能的处理器插槽
+ * 在使用默认的SlotChainBuilder情况下，
+ * AuthoritySlot在ProcessorSlotChain中会被放在SystemSlot、FlowSlot和DegradeSlot的前面，这是因为其优先级更高
+ * 1. 可授权限流不需要任何指标数据
+ * 2. 提升性能，再没有授权的情况下，没必要判断是否需要限流，熔断等；
  */
 @Spi(order = Constants.ORDER_AUTHORITY_SLOT)
 public class AuthoritySlot extends AbstractLinkedProcessorSlot<DefaultNode> {

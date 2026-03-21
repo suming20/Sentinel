@@ -22,6 +22,7 @@ import com.alibaba.csp.sentinel.slots.block.RuleConstant;
  * Authority rule is designed for limiting by request origins.
  *
  * @author youji.zj
+ * 授权规则类
  */
 public class AuthorityRule extends AbstractRule {
 

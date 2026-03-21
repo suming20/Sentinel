@@ -24,6 +24,8 @@ import com.alibaba.csp.sentinel.util.StringUtil;
  *
  * @author Eric Zhao
  * @since 0.2.0
+ * 授权检查类
+ * 实现黑白名单限流的前提是每个服务端在发起请求时都必须携带自身服务的名称
  */
 final class AuthorityRuleChecker {
 
@@ -39,6 +41,7 @@ final class AuthorityRuleChecker {
         int pos = rule.getLimitApp().indexOf(requester);
         boolean contain = pos > -1;
 
+        // 使用indexOf方法先简单匹配一次黑名单或白名单，再切割黑名单或者白名单数据实现精准匹配
         if (contain) {
             boolean exactlyMatch = false;
             String[] appArray = rule.getLimitApp().split(",");

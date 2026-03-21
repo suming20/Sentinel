@@ -37,6 +37,7 @@ import com.alibaba.csp.sentinel.property.SentinelProperty;
  * @author youji.zj
  * @author jialiang.linjl
  * @author Eric Zhao
+ * 授权规则管理者，提供loadRules API
  */
 public final class AuthorityRuleManager {
 
