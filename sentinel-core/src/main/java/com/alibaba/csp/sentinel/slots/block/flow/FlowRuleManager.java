@@ -60,6 +60,7 @@ public class FlowRuleManager {
         new NamedThreadFactory("sentinel-metrics-record-task", true));
 
     static {
+        // 注册默认的监听器
         currentProperty.addListener(LISTENER);
         startMetricTimerListener();
     }
@@ -88,6 +89,7 @@ public class FlowRuleManager {
      * Listen to the {@link SentinelProperty} for {@link FlowRule}s. The property is the source of {@link FlowRule}s.
      * Flow rules can also be set by {@link #loadRules(List)} directly.
      *
+     * 注册SentinelProperty
      * @param property the property to listen.
      */
     public static void register2Property(SentinelProperty<List<FlowRule>> property) {

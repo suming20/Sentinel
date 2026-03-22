@@ -25,6 +25,7 @@ import com.alibaba.csp.sentinel.property.SentinelProperty;
  * @param <T> target data type
  * @author Carpenter Lee
  * @author Eric Zhao
+ * 要求子类必须提供一个Converter接口。将S类型的实例转为T类型的实例；例如将装载yaml配置的FlowRuleProps实例转为FlowRule集合
  */
 public abstract class AbstractDataSource<S, T> implements ReadableDataSource<S, T> {
 
@@ -36,6 +37,7 @@ public abstract class AbstractDataSource<S, T> implements ReadableDataSource<S, 
             throw new IllegalArgumentException("parser can't be null");
         }
         this.parser = parser;
+        // 构造方法中创建DynamicSentinelProperty实例，子类无需再构造方法中创建
         this.property = new DynamicSentinelProperty<T>();
     }
 

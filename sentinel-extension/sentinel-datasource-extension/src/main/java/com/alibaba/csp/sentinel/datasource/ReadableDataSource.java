@@ -24,6 +24,7 @@ import com.alibaba.csp.sentinel.property.SentinelProperty;
  * @param <T> target data type
  * @author leyou
  * @author Eric Zhao
+ * 扩展接口，适配多种配置中心的动态数据源
  */
 public interface ReadableDataSource<S, T> {
 

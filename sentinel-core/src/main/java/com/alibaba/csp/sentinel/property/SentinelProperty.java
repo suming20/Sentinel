@@ -27,6 +27,7 @@ package com.alibaba.csp.sentinel.property;
  *
  * @param <T> the target type.
  * @author Carpenter Lee
+ * 添加监听器；实现动态加载或更新规则配置。
  */
 public interface SentinelProperty<T> {
 

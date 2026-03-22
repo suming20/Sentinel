@@ -20,6 +20,9 @@ import com.alibaba.csp.sentinel.log.RecordLog;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * set 存储已注册的监听器；updateValue方法负责通知所有监听器，调用监听器的configUpdate方法
+ */
 public class DynamicSentinelProperty<T> implements SentinelProperty<T> {
 
     protected Set<PropertyListener<T>> listeners = new CopyOnWriteArraySet<>();

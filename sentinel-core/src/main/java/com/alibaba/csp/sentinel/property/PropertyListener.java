@@ -24,6 +24,7 @@ public interface PropertyListener<T> {
 
     /**
      * Callback method when {@link SentinelProperty#updateValue(Object)} need inform the listener.
+     * 在更新规则时被调用；时机是SentinelProperty的updateValue方法被调用时；
      *
      * @param value updated value.
      */
@@ -31,6 +32,7 @@ public interface PropertyListener<T> {
 
     /**
      * The first time of the {@code value}'s load.
+     * 首次加载规则时被调用，是否被调用由SentinelProperty的实现类决定
      *
      * @param value the value loaded.
      */
