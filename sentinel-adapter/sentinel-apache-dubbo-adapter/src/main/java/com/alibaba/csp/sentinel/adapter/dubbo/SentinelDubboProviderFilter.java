@@ -68,6 +68,7 @@ public class SentinelDubboProviderFilter extends BaseSentinelDubboFilter {
         Entry interfaceEntry = null;
         Entry methodEntry = null;
         String prefix = DubboAdapterGlobalConfig.getDubboProviderResNamePrefixKey();
+        // 生成不同粒度的资源名称
         String interfaceResourceName = getInterfaceName(invoker, prefix);
         String methodResourceName = getMethodName(invoker, invocation, prefix);
         try {

@@ -30,6 +30,7 @@ import static org.apache.dubbo.common.constants.CommonConstants.CONSUMER;
  * Puts current consumer's application name in the attachment of each invocation.
  *
  * @author Eric Zhao
+ * 客户端过滤器，用于向服务端传递来源
  */
 @Activate(group = CONSUMER)
 public class DubboAppContextFilter implements Filter {

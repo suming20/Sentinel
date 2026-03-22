@@ -30,6 +30,8 @@ import com.alibaba.csp.sentinel.util.StringUtil;
  *
  * @author lianglin
  * @since 1.7.0
+ * sentinel默认使用dubbo.application.name作为来源
+ * 如果需要针对某个调用来源限流，则限流规则的limitApp应该与客户端的dubbo.application.name配置一样
  */
 public final class DubboAdapterGlobalConfig {
 
