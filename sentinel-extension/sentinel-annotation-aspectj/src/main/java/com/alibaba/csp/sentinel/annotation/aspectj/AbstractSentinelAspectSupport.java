@@ -248,6 +248,9 @@ public abstract class AbstractSentinelAspectSupport {
         return method;
     }
 
+    // 如果未配置处理器类型或者配置的处理器类型是当前拦截方法所属类，则从当前拦截方法所属类中寻找方法，
+    // 否则从指定处理器类型中寻找方法，但要求方法是一个静态方法。
+    // 方法的参数类型与拦截方法的参数类型相匹配，并且多出一个接收异常的参数。
     private Method extractBlockHandlerMethod(ProceedingJoinPoint pjp, String name, Class<?>[] locationClass) {
         if (StringUtil.isBlank(name)) {
             return null;

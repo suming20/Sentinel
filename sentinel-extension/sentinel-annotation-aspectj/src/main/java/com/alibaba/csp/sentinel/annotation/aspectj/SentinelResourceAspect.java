@@ -56,6 +56,8 @@ public class SentinelResourceAspect extends AbstractSentinelAspectSupport {
             entry = SphU.entry(resourceName, resourceType, entryType, pjp.getArgs());
             return pjp.proceed();
         } catch (BlockException ex) {
+            // 与handleFallback方法的实现相同，
+            // 都是通过处理器的类型、方法名、方法参数使用反射从BlockException处理器或Fallback处理器中获取方法的Method实例调用
             return handleBlockException(pjp, annotation, ex);
         } catch (Throwable ex) {
             Class<? extends Throwable>[] exceptionsToIgnore = annotation.exceptionsToIgnore();

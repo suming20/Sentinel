@@ -25,6 +25,9 @@ import java.lang.annotation.*;
  * @author Eric Zhao
  * @author zhaoyuguang
  * @since 0.1.1
+ * 定义资源，作为切点，可被注释在方法或者类上
+ * 如果是注释在类上，且通过value属性指定了资源名称，则该类下的所有public方法都会被切面拦截，并且都会被当作同一个资源处理，
+ * 而如果未通过value属性指定资源名称，则自动根据类名、方法名称和方法参数生成资源名称，
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
