@@ -103,8 +103,10 @@ public abstract class AbstractSentinelInterceptor implements AsyncHandlerInterce
             }
 
             // Parse the request origin using registered origin parser.
+            // 解析调用来源。例如从请求头中获取S-user参数的值
             String origin = parseOrigin(request);
             String contextName = getContextName(request);
+            // preHandle中调用ContextUtil.enter及SphU.entry
             ContextUtil.enter(contextName, origin);
             Entry entry = SphU.entry(resourceName, ResourceTypeConstants.COMMON_WEB, EntryType.IN);
             request.setAttribute(baseWebMvcConfig.getRequestAttributeName(), entry);
@@ -175,7 +177,7 @@ public abstract class AbstractSentinelInterceptor implements AsyncHandlerInterce
                     getClass().getSimpleName(), baseWebMvcConfig.getRequestAttributeName());
             return;
         }
-
+        // 在AfterCompletion中根据方法参数ex判断是否异常，并调用exit
         traceExceptionAndExit(entry, ex);
         removeEntryInRequest(request);
         ContextUtil.exit();
@@ -208,6 +210,7 @@ public abstract class AbstractSentinelInterceptor implements AsyncHandlerInterce
         }
 
         if (ex != null) {
+            // 统计指标
             Tracer.traceEntry(ex, entry);
         }
         entry.exit();

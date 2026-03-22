@@ -97,6 +97,7 @@ public class Tracer {
     /**
      * Trace provided {@link Throwable} to the given resource entry.
      *
+     * 用于在方法执行入口创建数据追踪上下文，记录调用的额链路信息，以便后续统计异常指标数据
      * @param e exception to record
      * @since 1.4.2
      */

@@ -32,6 +32,7 @@ public class SentinelWebMvcConfig extends BaseWebMvcConfig {
 
     /**
      * Specify whether the URL resource name should contain the HTTP method prefix (e.g. {@code POST:}).
+     * 是否要给资源名加上HttpMethod前缀
      */
     private boolean httpMethodSpecify;
 

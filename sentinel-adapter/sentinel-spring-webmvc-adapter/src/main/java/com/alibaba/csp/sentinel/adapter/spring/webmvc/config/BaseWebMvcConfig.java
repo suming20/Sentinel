@@ -31,6 +31,7 @@ public abstract class BaseWebMvcConfig {
     protected String requestAttributeName;
     protected String requestRefName;
     protected BlockExceptionHandler blockExceptionHandler;
+    // 调用来源的解析器，例如从请求头中获取S-user参数的值作为调用来源，在向下游服务发起时在请求头写入S-user参数；
     protected RequestOriginParser originParser;
 
     public String getRequestAttributeName() {

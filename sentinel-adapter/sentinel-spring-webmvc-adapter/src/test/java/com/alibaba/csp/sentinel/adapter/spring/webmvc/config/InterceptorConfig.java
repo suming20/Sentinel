@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
  * Config sentinel interceptor
  *
  * @author kaizi2009
+ * springmvc适配示例
  */
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
