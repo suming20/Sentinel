@@ -122,6 +122,7 @@ public final class ParamFlowChecker {
         return true;
     }
 
+    // fail-fast实现
     static boolean passDefaultLocalCheck(ResourceWrapper resourceWrapper, ParamFlowRule rule, int acquireCount,
                                          Object value) {
         ParameterMetric metric = getParameterMetric(resourceWrapper);
@@ -194,6 +195,7 @@ public final class ParamFlowChecker {
         }
     }
 
+    // 匀速排队实现
     static boolean passThrottleLocalCheck(ResourceWrapper resourceWrapper, ParamFlowRule rule, int acquireCount,
                                           Object value) {
         ParameterMetric metric = getParameterMetric(resourceWrapper);
