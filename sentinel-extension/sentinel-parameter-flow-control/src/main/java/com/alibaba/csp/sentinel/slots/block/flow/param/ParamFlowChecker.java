@@ -109,6 +109,7 @@ public final class ParamFlowChecker {
             }
         } else if (rule.getGrade() == RuleConstant.FLOW_GRADE_THREAD) {
             Set<Object> exclusionItems = rule.getParsedHotItems().keySet();
+            // 获取当前资源和参数对对应的并行占用线程总数，并行占用线程总数由ParamFlowStatisticEntry/Exit Callback处理
             long threadCount = getParameterMetric(resourceWrapper).getThreadCount(rule.getParamIdx(), value);
             if (exclusionItems.contains(value)) {
                 int itemThreshold = rule.getParsedHotItems().get(value);

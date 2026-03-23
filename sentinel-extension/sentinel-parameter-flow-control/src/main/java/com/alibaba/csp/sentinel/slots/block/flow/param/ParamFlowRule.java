@@ -46,6 +46,7 @@ public class ParamFlowRule extends AbstractRule {
 
     /**
      * Parameter index.
+     * 参数索引，ParamFlowChecker根据限流规则的参数索引获取参数的值，下标从0开始
      */
     private Integer paramIdx;
 
@@ -56,11 +57,15 @@ public class ParamFlowRule extends AbstractRule {
 
     /**
      * Traffic shaping behavior (since 1.6.0).
+     * 流控效果，支持的类型与FlowRule相同，但只支持快速失败和匀速排队
      */
     private int controlBehavior = RuleConstant.CONTROL_BEHAVIOR_DEFAULT;
 
+    // 实现匀速排队流量控制效果的虚拟队列最大等待时间，超过该值的请求将被抛弃
     private int maxQueueingTimeMs = 0;
+    // 支持的突发流量总数
     private int burstCount = 0;
+    // 统计指标的时间窗口大小，单位为s
     private long durationInSec = 1;
 
     /**

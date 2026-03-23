@@ -24,6 +24,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.param.ParameterMetricStorage;
 /**
  * @author Eric Zhao
  * @since 0.2.0
+ * 这两个Callback分别在StatisticSlot的entry方法和exit方法中被回调执行
  */
 public class ParamFlowStatisticExitCallback implements ProcessorSlotExitCallback {
 

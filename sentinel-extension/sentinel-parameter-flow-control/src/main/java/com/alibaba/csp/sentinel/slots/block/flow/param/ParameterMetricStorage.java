@@ -25,6 +25,7 @@ import com.alibaba.csp.sentinel.util.StringUtil;
 /**
  * @author Eric Zhao
  * @since 1.6.1
+ * 用于实现类似于EntranceNode的功能，管理和存储每个资源对应的ParameterMetic
  */
 public final class ParameterMetricStorage {
 
@@ -38,6 +39,7 @@ public final class ParameterMetricStorage {
     /**
      * Init the parameter metric and index map for given resource.
      * Package-private for test.
+     * 该方法在资源被访问时由parameterFlowSlot调用并且该方法只在为资源配置了参数限流规则的情况下被调用
      *
      * @param resourceWrapper resource to init
      * @param rule            relevant rule

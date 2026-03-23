@@ -32,6 +32,7 @@ import com.alibaba.csp.sentinel.slots.statistic.cache.ConcurrentLinkedHashMapWra
  *
  * @author Eric Zhao
  * @since 0.2.0
+ * 用于实现ClusterNode的统计功能
  */
 public class ParameterMetric {
 
@@ -43,6 +44,7 @@ public class ParameterMetric {
 
     /**
      * Format: (rule, (value, timeRecorder))
+     * 用于实现匀速流量控制效果，Value为参数不同取值对应上次生产令牌的时间
      *
      * @since 1.6.0
      */
@@ -50,11 +52,13 @@ public class ParameterMetric {
 
     /**
      * Format: (rule, (value, tokenCounter))
+     * 用于实现匀速流量控制效果，Value为参数不同取值对应的当前并行占用的线程数；
      *
      * @since 1.6.0
      */
     private final Map<ParamFlowRule, CacheMap<Object, AtomicReference<TokenUpdateStatus>>> ruleTokenCounter = new HashMap<>();
 
+    // key为索引参数，value为参数不同取值对应的当前并行占用的线程总数
     private final Map<Integer, CacheMap<Object, AtomicInteger>> threadCountMap = new HashMap<>();
 
     /**
