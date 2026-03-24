@@ -23,6 +23,7 @@ import com.alibaba.csp.sentinel.cluster.TokenService;
  *
  * @author Eric Zhao
  * @since 1.4.0
+ * 集群限流client需要实现的接口
  */
 public interface ClusterTokenClient extends TokenService {
 

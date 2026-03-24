@@ -102,6 +102,7 @@ public final class ClusterClientConfigManager {
         clientConfigProperty.updateValue(config);
     }
 
+    // 当以下方法被调用时，会触发Sentinel初始化或重连接到集群限流服务端
     public static void applyNewAssignConfig(ClusterClientAssignConfig clusterClientAssignConfig) {
         clientAssignProperty.updateValue(clusterClientAssignConfig);
     }

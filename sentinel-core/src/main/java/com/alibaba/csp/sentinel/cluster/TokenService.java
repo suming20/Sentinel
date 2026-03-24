@@ -22,6 +22,8 @@ import java.util.Collection;
  *
  * @author Eric Zhao
  * @since 1.4.0
+ * 定义集群限流client向server申请token的接口，由FlowRuleChecker调用
+ * 是client与server通信的RPC接口
  */
 public interface TokenService {
 

@@ -88,9 +88,11 @@ public class FlowRule extends AbstractRule {
      */
     private int maxQueueingTimeMs = 500;
 
+    // true表示集群限流
     private boolean clusterMode;
     /**
      * Flow rule config for cluster mode.
+     * 集群限流必须被配置，ClusterFlowConfig
      */
     private ClusterFlowConfig clusterConfig;
 

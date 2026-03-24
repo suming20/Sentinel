@@ -18,6 +18,8 @@ package com.alibaba.csp.sentinel.cluster.client.config;
 /**
  * @author Eric Zhao
  * @since 1.4.1
+ * 指定集群限流服务端的IP地址和端口
+ * 客户端连接服务端配置
  */
 public class ClusterClientAssignConfig {
 

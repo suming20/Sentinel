@@ -27,7 +27,9 @@ public class TokenResult {
 
     private Integer status;
 
+    // 窗口剩余令牌数
     private int remaining;
+    // 休眠等待时间，ms
     private int waitInMs;
 
     private long tokenId;

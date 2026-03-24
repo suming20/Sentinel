@@ -30,13 +30,16 @@ public class ClusterFlowConfig {
 
     /**
      * Global unique ID.
+     * 集群限流的全局唯一id
      */
     private Long flowId;
 
     /**
      * Threshold type (average by local value or global value).
+     * 集群限流阈值类型；支持单机均摊和集群总阈值
      */
     private int thresholdType = ClusterRuleConstant.FLOW_THRESHOLD_AVG_LOCAL;
+    // 失败时是否退回为本地限流，默认为true
     private boolean fallbackToLocalWhenFail = true;
 
     /**
@@ -44,9 +47,11 @@ public class ClusterFlowConfig {
      */
     private int strategy = ClusterRuleConstant.FLOW_CLUSTER_STRATEGY_NORMAL;
 
+    // 滑动窗口构造方法的参数之一，指定WindowWarp的数组大小
     private int sampleCount = ClusterRuleConstant.DEFAULT_CLUSTER_SAMPLE_COUNT;
     /**
      * The time interval length of the statistic sliding window (in milliseconds)
+     * 滑动窗口周期；每个windowWarp窗口的时间大小windowIntervalMs/sampleCount
      */
     private int windowIntervalMs = RuleConstant.DEFAULT_WINDOW_INTERVAL_MS;
 

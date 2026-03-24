@@ -49,6 +49,11 @@ public final class ConfigSupplierRegistry {
         return namespaceSupplier;
     }
 
+    /**
+     * 注册命令空间
+     * 当集群限流客户端连接上集群限流服务端时，会立即发送一个PING类型的消息给集群限流服务端。
+     * Sentinel会将名称空间携带在PING数据包上传递给集群限流服务端，集群限流服务端以此获得每个集群限流客户端连接的名称空间
+     */
     public static void setNamespaceSupplier(Supplier<String> namespaceSupplier) {
         AssertUtil.notNull(namespaceSupplier, "namespaceSupplier cannot be null");
         ConfigSupplierRegistry.namespaceSupplier = namespaceSupplier;

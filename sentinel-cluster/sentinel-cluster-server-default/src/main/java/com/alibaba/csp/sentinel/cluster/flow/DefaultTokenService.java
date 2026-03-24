@@ -31,6 +31,7 @@ import java.util.Collection;
  *
  * @author Eric Zhao
  * @since 1.4.0
+ * 无论是集群限流服务端接收集群限流客户端发来的requestToken请求，还是在嵌入式模式下自己向自己发起请求，最终都会交给DefaultTokenService处理
  */
 @Spi(isDefault = true)
 public class DefaultTokenService implements TokenService {

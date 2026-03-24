@@ -53,17 +53,21 @@ final class ClusterFlowChecker {
     }
 
     static TokenResult acquireClusterToken(/*@Valid*/ FlowRule rule, int acquireCount, boolean prioritized) {
+        // Sentinel只使用一个ID字段向集群限流服务端传递限流规则，减小了数据包的大小，优化了网络通信的性能。
         Long id = rule.getClusterConfig().getFlowId();
 
+        // 根据全局QPS阈值限流，按名称统计QPS
         if (!allowProceed(id)) {
             return new TokenResult(TokenResultStatus.TOO_MANY_REQUEST);
         }
 
+        // 根据规则id获取统计实时指标数据的滑动窗口
         ClusterMetric metric = ClusterMetricStatistics.getMetric(id);
         if (metric == null) {
             return new TokenResult(TokenResultStatus.FAIL);
         }
 
+        // 计算每秒被放行请求数，集群限流阈值和剩余可用令牌数
         double latestQps = metric.getAvg(ClusterFlowEvent.PASS);
         double globalThreshold = calcGlobalThreshold(rule) * ClusterServerConfigManager.getExceedCount();
         double nextRemaining = globalThreshold - latestQps - acquireCount;

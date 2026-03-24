@@ -18,6 +18,7 @@ package com.alibaba.csp.sentinel.dashboard.domain.cluster.config;
 /**
  * @author Eric Zhao
  * @since 1.4.0
+ * 服务端传输层配置，包括监听端口，链接最大空闲时间
  */
 public class ServerTransportConfig {
 

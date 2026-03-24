@@ -18,6 +18,7 @@ package com.alibaba.csp.sentinel.cluster.client.config;
 /**
  * @author Eric Zhao
  * @since 1.4.0
+ * 客户端配置，包括请求超时
  */
 public class ClusterClientConfig {
 

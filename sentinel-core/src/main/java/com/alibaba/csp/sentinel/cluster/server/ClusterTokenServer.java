@@ -20,6 +20,7 @@ package com.alibaba.csp.sentinel.cluster.server;
  *
  * @author Eric Zhao
  * @since 1.4.0
+ * 集群限流server需要实现的接口
  */
 public interface ClusterTokenServer {
 

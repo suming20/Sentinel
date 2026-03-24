@@ -150,11 +150,13 @@ public class FlowRuleChecker {
     private static boolean passClusterCheck(FlowRule rule, Context context, DefaultNode node, int acquireCount,
                                             boolean prioritized) {
         try {
+            // 根据当前节点角色获取TokenService实例
             TokenService clusterService = pickClusterService();
             if (clusterService == null) {
                 return fallbackToLocalOrPass(rule, context, node, acquireCount, prioritized);
             }
             long flowId = rule.getClusterConfig().getFlowId();
+            // 申请令牌，处理响应结果
             TokenResult result = clusterService.requestToken(flowId, acquireCount, prioritized);
             return applyTokenResult(result, rule, context, node, acquireCount, prioritized);
             // If client is absent, then fallback to local mode.
@@ -168,6 +170,7 @@ public class FlowRuleChecker {
 
     private static boolean fallbackToLocalOrPass(FlowRule rule, Context context, DefaultNode node, int acquireCount,
                                                  boolean prioritized) {
+        // 是否退回本地限流
         if (rule.getClusterConfig().isFallbackToLocalWhenFail()) {
             return passLocalCheck(rule, context, node, acquireCount, prioritized);
         } else {
