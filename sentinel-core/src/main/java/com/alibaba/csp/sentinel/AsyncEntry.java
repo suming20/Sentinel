@@ -41,6 +41,7 @@ public class AsyncEntry extends CtEntry {
 
     /**
      * Remove current entry from local context, but does not exit.
+     * 将当前异步资源的的Entry实例从Entry双向链表移除
      */
     void cleanCurrentEntryInLocal() {
         if (context instanceof NullContext) {
@@ -71,6 +72,7 @@ public class AsyncEntry extends CtEntry {
 
     /**
      * The async context should not be initialized until the node for current resource has been set to current entry.
+     * 用于创建异步环境下的Context实例
      */
     void initAsyncContext() {
         if (asyncContext == null) {

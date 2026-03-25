@@ -62,6 +62,7 @@ public class SentinelReactorSubscriber<T> extends InheritableBaseSubscriber<T> {
         if (currentEntry == null || entryExited.get()) {
             return actual.currentContext();
         }
+        // 通过reactor的context机制向上游订阅者传递asyncContext
         com.alibaba.csp.sentinel.context.Context sentinelContext = currentEntry.getAsyncContext();
         if (sentinelContext == null) {
             return actual.currentContext();
@@ -73,11 +74,17 @@ public class SentinelReactorSubscriber<T> extends InheritableBaseSubscriber<T> {
     private void doWithContextOrCurrent(Supplier<Optional<com.alibaba.csp.sentinel.context.Context>> contextSupplier,
                                         Runnable f) {
         Optional<com.alibaba.csp.sentinel.context.Context> contextOpt = contextSupplier.get();
+        // 如果被保护的资源不是异步操作，直接执行entryWhenSubscribed方法
         if (!contextOpt.isPresent()) {
             // Provided context is absent, use current context.
             f.run();
         } else {
             // Run on provided context.
+            /**
+             * 如果是异步操作，则需要先替换ContextUtil类的ThreadLocal存储的Context实例为下游订阅者传递上来的asyncContext，
+             * 再执行entryWhenSubscribed方法，并且在entryWhenSubscribed方法执行完成后，
+             * 还要将ContextUtil类的ThreadLocal存储的Context实例还原为替换之前的，这些操作都是为了能够构造正确的调用链与调用树。
+             */
             ContextUtil.runOnContext(contextOpt.get(), f);
         }
     }
@@ -145,6 +152,7 @@ public class SentinelReactorSubscriber<T> extends InheritableBaseSubscriber<T> {
 
     @Override
     protected void hookOnError(Throwable t) {
+        // 先调用Tracer#traceContext方法完成异常指标数据统计，再调用Entry#exit方法
         if (currentEntry != null && currentEntry.getAsyncContext() != null) {
             // Normal requests with non-BlockException will go through here.
             Tracer.traceContext(t, 1, currentEntry.getAsyncContext());

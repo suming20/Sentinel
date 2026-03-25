@@ -62,6 +62,7 @@ public class CtSph implements Sph {
         return entry;
     }
 
+    // 异步支持处理
     private AsyncEntry asyncEntryWithPriorityInternal(ResourceWrapper resourceWrapper, int count, boolean prioritized,
                                                       Object... args) throws BlockException {
         Context context = ContextUtil.getContext();
@@ -91,6 +92,7 @@ public class CtSph implements Sph {
         try {
             chain.entry(context, resourceWrapper, null, count, prioritized, args);
             // Initiate the async context only when the entry successfully passed the slot chain.
+            // 初始化异步环境下的context
             asyncEntry.initAsyncContext();
             // The asynchronous call may take time in background, and current context should not be hanged on it.
             // So we need to remove current async entry from current context.

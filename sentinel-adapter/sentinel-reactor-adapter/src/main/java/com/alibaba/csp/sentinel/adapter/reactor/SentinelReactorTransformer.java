@@ -28,6 +28,7 @@ import reactor.core.publisher.Mono;
  *
  * @author Eric Zhao
  * @since 1.5.0
+ * Sentinel可以通过transformAPI与BaseSubscriber结合使用来适配Reactor框架
  */
 public class SentinelReactorTransformer<T> implements Function<Publisher<T>, Publisher<T>> {
 
