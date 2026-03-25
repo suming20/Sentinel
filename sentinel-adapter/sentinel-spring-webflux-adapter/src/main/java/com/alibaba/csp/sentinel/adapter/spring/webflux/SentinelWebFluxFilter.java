@@ -33,6 +33,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Eric Zhao
  * @since 1.5.0
+ * 适配webFlux
  */
 public class SentinelWebFluxFilter implements WebFilter {
 
