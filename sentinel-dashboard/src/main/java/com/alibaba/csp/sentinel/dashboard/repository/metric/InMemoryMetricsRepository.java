@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
  *
  * @author Carpenter Lee
  * @author Eric Zhao
+ * 基于内存存储，只会缓存每个资源近3分钟的数据
  */
 @Component
 public class InMemoryMetricsRepository implements MetricsRepository<MetricEntity> {

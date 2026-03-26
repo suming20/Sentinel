@@ -111,6 +111,7 @@ public class StatisticNode implements Node {
 
     /**
      * The last timestamp when metrics were fetched.
+     * 为metric方法为上次被调用的时间戳
      */
     private long lastFetchTime = -1;
 

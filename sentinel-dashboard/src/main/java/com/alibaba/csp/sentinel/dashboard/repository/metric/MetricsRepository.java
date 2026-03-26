@@ -22,6 +22,7 @@ import java.util.List;
  *
  * @param <T> type of metrics
  * @author Eric Zhao
+ * 指标数据存储仓储接口
  */
 public interface MetricsRepository<T> {
 

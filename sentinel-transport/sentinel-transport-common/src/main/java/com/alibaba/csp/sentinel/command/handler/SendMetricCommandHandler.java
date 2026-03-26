@@ -37,6 +37,8 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
  *
  * @author leyou
  * @author Eric Zhao
+ * dashboard向每个应用的每个节点主动发起拉起指标数据请求时，对应SendMetricCommandHandler类的handle方法
+ * 将从${user.home}/logs/csp目录下的${appName}-metrics.log.yyyy-MM-dd文件中根据时间段范围搜索记
  */
 @CommandMapping(name = "metric", desc = "get and aggregate metrics, accept param: "
     + "startTime={startTime}&endTime={endTime}&maxLines={maxLines}&identify={resourceName}")

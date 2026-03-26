@@ -33,6 +33,8 @@ import com.alibaba.csp.sentinel.transport.config.TransportConfig;
  * Global init function for heartbeat sender.
  *
  * @author Eric Zhao
+ * 负责在Sentinel组件初始化时启动一个定时调度线程池，默认每隔10秒向Sentinel Dashboard发送心跳包。
+ * 心跳包携带了应用的名称、Sentinel版本号、IP地址及sentinel-transport-simple-http模块启动的内嵌HTTP服务端的端口。
  */
 @InitOrder(-1)
 public class HeartbeatSenderInitFunc implements InitFunc {

@@ -40,6 +40,7 @@ public class MachineRegistryController {
     @Autowired
     private AppManagement appManagement;
 
+    // 心跳接口
     @ResponseBody
     @RequestMapping("/machine")
     public Result<?> receiveHeartBeat(String app,

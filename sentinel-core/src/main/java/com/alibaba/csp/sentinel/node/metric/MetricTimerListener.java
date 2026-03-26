@@ -30,6 +30,7 @@ import com.alibaba.csp.sentinel.slots.clusterbuilder.ClusterBuilderSlot;
 
 /**
  * @author jialiang.linjl
+ * 负责将资源指标数据输出到metric日志文件中的任务
  */
 public class MetricTimerListener implements Runnable {
 
@@ -44,6 +45,7 @@ public class MetricTimerListener implements Runnable {
             Map<Long, MetricNode> metrics = node.metrics();
             aggregate(maps, metrics, node);
         }
+        // ENTRY_NODE统计的是整个应用所有资源的指标数据
         aggregate(maps, Constants.ENTRY_NODE.metrics(), Constants.ENTRY_NODE);
         if (!maps.isEmpty()) {
             for (Entry<Long, List<MetricNode>> entry : maps.entrySet()) {
@@ -55,7 +57,7 @@ public class MetricTimerListener implements Runnable {
             }
         }
     }
-
+    // 实现按照时间戳聚合资源指标数据，并将数据写入局部maps中，一般maps只会有一个于元素
     private void aggregate(Map<Long, List<MetricNode>> maps, Map<Long, MetricNode> metrics, ClusterNode node) {
         for (Entry<Long, MetricNode> entry : metrics.entrySet()) {
             long time = entry.getKey();
